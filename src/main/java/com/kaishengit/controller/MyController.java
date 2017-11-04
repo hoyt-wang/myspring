@@ -23,7 +23,7 @@ public class MyController {
 
     @GetMapping("/list")
     @ResponseBody
-    public List<Product> page(@RequestParam(name = "p") Integer pageNo) {
+    public List<Product> page(@RequestParam(defaultValue = "1",required = false, name = "p") Integer pageNo) {
         return productService.findByPageNo(pageNo);
     }
 

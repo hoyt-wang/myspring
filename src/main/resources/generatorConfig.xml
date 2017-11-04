@@ -15,7 +15,7 @@
 
         <!-- !!!! Database Configurations !!!! -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql:///demo"
+                        connectionURL="jdbc:mysql:///myblog"
                         userId="root" password="123456"/>
 
 
@@ -38,6 +38,6 @@
         </javaClientGenerator>
 
         <!-- !!!! Table Configurations !!!! -->
-        <table tableName="t_product" domainObjectName="Product" enableSelectByExample="true"/>
+        <table tableName="kaola_type" domainObjectName="KaolaType" enableSelectByExample="true"/>
     </context>
 </generatorConfiguration>
