@@ -2,6 +2,7 @@ package com.kaishengit.controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.kaishengit.entity.Kaola;
 import com.kaishengit.service.KaolaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 /**
  * Created by hoyt on 2017/11/4.
@@ -23,10 +26,18 @@ public class KaolaController {
 
     @GetMapping
     public String findByPageNo(@RequestParam(name = "p",defaultValue = "1",required = false) Integer pageNo,
+                               @RequestParam(required = false, defaultValue = "") String productName,
+                               @RequestParam(required = false, defaultValue = "") String place,
+                               @RequestParam(required = false, defaultValue = "") Integer typeId,
                                Model model) {
-
-        PageInfo<Kaola> pageInfo = kaolaService.findByPageNo(pageNo);
+        Map<String,Object> queryParam = Maps.newHashMap();
+        queryParam.put("productName",productName);
+        queryParam.put("place",place);
+        queryParam.put("typeId",typeId);
+        PageInfo<Kaola> pageInfo = kaolaService.findByQueryParamWithType(pageNo,queryParam);
         model.addAttribute("pageInfo",pageInfo);
+        model.addAttribute("placeList",kaolaService.findAllPlace());
+        model.addAttribute("typeList",kaolaService.findAllType());
         return "kaola/list";
     }
 

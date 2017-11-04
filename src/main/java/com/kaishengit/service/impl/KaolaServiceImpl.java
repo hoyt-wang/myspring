@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hoyt on 2017/11/4.
@@ -29,16 +30,25 @@ public class KaolaServiceImpl implements KaolaService {
 
     @Override
     public Kaola findById(Integer id) {
-        return kaolaMapper.selectByPrimaryKey(id);
+        Kaola kaola = kaolaMapper.selectByPrimaryKey(id);
+        kaola.setKaolaType(kaolaTypeMapper.selectByPrimaryKey(kaola.getTypeId()));
+        return kaola;
     }
 
     @Override
     public PageInfo<Kaola> findByPageNo(Integer pageNo) {
         PageHelper.startPage(pageNo,10);
-        KaolaExample kaolaExample = new KaolaExample();
-        kaolaExample.setOrderByClause("id desc");
-        List<Kaola> list = kaolaMapper.selectByExample(kaolaExample);
-        return new PageInfo<Kaola>(list);
+        /*KaolaExample kaolaExample = new KaolaExample();
+        kaolaExample.setOrderByClause("id desc");*/
+        List<Kaola> list = kaolaMapper.findWithType();
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public PageInfo<Kaola> findByQueryParamWithType(Integer pageNo, Map<String, Object> queryParam) {
+        PageHelper.startPage(pageNo,10);
+        List<Kaola> list = kaolaMapper.findByQueryParamWithType(queryParam);
+        return new PageInfo<>(list);
     }
 
     @Override
@@ -60,5 +70,10 @@ public class KaolaServiceImpl implements KaolaService {
     @Override
     public List<KaolaType> findAllType() {
         return kaolaTypeMapper.selectByExample(new KaolaTypeExample());
+    }
+
+    @Override
+    public List<String> findAllPlace() {
+        return kaolaMapper.findAllPlace();
     }
 }

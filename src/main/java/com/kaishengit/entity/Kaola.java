@@ -17,6 +17,16 @@ public class Kaola {
 
     private Integer typeId;
 
+    private KaolaType kaolaType;
+
+    public KaolaType getKaolaType() {
+        return kaolaType;
+    }
+
+    public void setKaolaType(KaolaType kaolaType) {
+        this.kaolaType = kaolaType;
+    }
+
     public Integer getId() {
         return id;
     }
